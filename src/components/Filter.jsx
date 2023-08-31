@@ -1,11 +1,7 @@
-const Filter = ({ handleFilterChange, handleBackspace }) => {
+const Filter = ({ handleFilterChange }) => {
   return (
     <div>
-      find countries <input onChange={handleFilterChange} onKeyDown={(e) => {
-        if (e.key === "Backspace") {
-          handleBackspace();
-        }
-      }}></input>
+      find countries <input onChange={handleFilterChange}></input>
     </div>
   )
 }
