@@ -1,34 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import Filter from './components/Filter'
+import Country from './Country'
+
+const baseUrl = "https://studies.cs.helsinki.fi/restcountries/"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [countries, setCountries] = useState([])
+  const [originalCountries, setOriginalCountries] = useState(countries)
+  const [filterInput, setFilterInput] = useState("")
+
+  useEffect(() => {
+    axios.get(`${baseUrl}/api/all`)
+      .then((response) => {
+        setCountries(response.data)
+        setOriginalCountries(response.data)
+    })
+  }, [])
+  //console.log("Countries", countries)
+  //console.log("Original",originalCountries)
+
+  const handleFilterChange = (event) => {
+    const inputValue = event.target.value.toLowerCase()
+    console.log("inputValue", inputValue)
+    if (inputValue.length === 0) {
+      setCountries(originalCountries)
+      console.log("Countries", countries)
+      console.log("Original", originalCountries)
+    } else {
+      setFilterInput(inputValue)
+      const filter = originalCountries.filter(country => country.name.common.toLowerCase().includes(inputValue))
+      setCountries(filter)
+      console.log("Filter", filter)
+    }
+  }
+
+  const handleBackspace = () => {
+    return
+    const newFilterInput = filterInput.slice(0, -1)
+    setFilterInput(newFilterInput)
+    const filter = originalCountries.filter(country => country.name.common.totoLowerCase().includes(newFilterInput))
+    setCountries(filter)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <Filter handleFilterChange={handleFilterChange} handleBackspace={handleBackspace} />
+      <Country countries={countries}/>
+    </div>
   )
 }
 
