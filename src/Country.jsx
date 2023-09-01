@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 
 // NOTE: Local .env variable
-const api_key = import.meta.env.VITE_SOME_KEY
+//const api_key = import.meta.env.VITE_SOME_KEY
+// NOTE: Github repository secrets
+const api_key = import.meta.env.OPENMAP_APIKEY
 
 const Country = ({ countries, setCountries }) => {
   const [weather, setWeather] = useState(null)
