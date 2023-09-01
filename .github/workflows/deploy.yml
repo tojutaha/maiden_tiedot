@@ -25,7 +25,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          OPENMAP_APIKEY: ${{ secrets.OPENMAP_APIKEY }}
+          VITE_OPENMAP_APIKEY: ${{ secrets.VITE_OPENMAP_APIKEY }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
