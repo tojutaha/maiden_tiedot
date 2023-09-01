@@ -11,6 +11,11 @@ const Country = ({ countries, setCountries }) => {
 
   useEffect(() => {
     if (countries.length === 1) {
+
+      if (!api_key) {
+        console.error("No api_key were found!")
+      }
+
       const country = countries[0]
       const url = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${country.capital}&APPID=${api_key}`
 
